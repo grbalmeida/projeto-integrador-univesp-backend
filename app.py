@@ -1,11 +1,29 @@
 import os
+import json
 from flask import Flask
 
+from database.categoria import Categoria
+
 app = Flask(__name__)
-env_config = os.getenv('APP_SETTINGS', 'config.DevelopmentConfig')
-app.config.from_object(env_config)
+app.config.from_object(os.environ['APP_SETTINGS'])
 
 @app.route("/")
 def index():
-    secret_key = app.config.get('SECRET_KEY')
-    return f'The configured secret key is {secret_key}'
+    return f'Hello World!'
+
+@app.route("/categorias", methods=['GET'])
+def get_categorias():
+    categoria = Categoria()
+    categorias = categoria.obter_todos()
+
+    results = [
+        {
+            "id": cat_id,
+            "nome": nome
+        } for cat_id, nome in categorias
+    ]
+
+    return json.dumps(results)
+
+if __name__ == '__main__':
+    app.run()
