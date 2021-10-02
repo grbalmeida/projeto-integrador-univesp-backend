@@ -1,4 +1,5 @@
 import psycopg2
+import psycopg2.extras
 import os
 
 # localhost
@@ -15,7 +16,7 @@ class Repository:
     def __init__(self, table_name, primary_key):
         self.table_name = table_name
         self.primary_key = primary_key
-        
+
         self.connection = psycopg2.connect(
             host=os.environ.get('DATABASE_HOST'),
             database=os.environ.get('DATABASE_NAME'),
@@ -23,7 +24,7 @@ class Repository:
             password=os.environ.get('DATABASE_PASSWORD')
         )
 
-        self.cur = self.connection.cursor()
+        self.cur = self.connection.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
 
     def obter_todos(self):
         self.cur.execute(f'select * from {self.table_name}')

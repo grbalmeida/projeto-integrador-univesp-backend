@@ -3,6 +3,7 @@ import json
 from flask import Flask
 
 from database.categoria import Categoria
+from database.instituicao import Instituicao
 
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
@@ -18,9 +19,9 @@ def get_categorias():
 
     results = [
         {
-            "id": cat_id,
-            "nome": nome
-        } for cat_id, nome in categorias
+            "id": cat['cat_id'],
+            "nome": cat['nome']
+        } for cat in categorias
     ]
 
     return json.dumps(results, ensure_ascii=False)
@@ -33,8 +34,15 @@ def get_categoria(categoria_id):
     if cat is None:
         return json.dumps({})
     else:
-        id, nome = cat
-        return json.dumps({'id': id, 'nome': nome}, ensure_ascii=False)
+        result = {'id': cat['cat_id'], 'nome': cat['nome']}
+        return json.dumps(result, ensure_ascii=False)
+
+@app.route("/instituicoes", methods=['GET'])
+def get_instituicoes():
+    instituicao = Instituicao()
+    instituicoes = instituicao.obter_instituicoes()
+
+    return json.dumps(instituicoes, ensure_ascii=False)
 
 if __name__ == '__main__':
     app.run()
