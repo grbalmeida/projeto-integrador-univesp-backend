@@ -1,3 +1,9 @@
+### Para rodar a API em outra porta no ambiente de desenvolvimento
+
+```
+flask run --host=0.0.0.0 --port=9023
+```
+
 ### Configurar variáveis de ambiente do banco de dados
 
 ```
