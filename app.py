@@ -65,5 +65,34 @@ def get_imagem(imagem):
     except FileNotFoundError:
         return NotFound()
 
+@app.route("/imgs", methods=['GET'])
+def get_images():
+    def get_image_name(image_file):
+        image_name = image_file.replace('.jpg', '')
+        image_name = image_name.replace('-', ' ')
+        parts = image_name.split(' ')
+
+        image_name = ''
+
+        for part in parts:
+            image_name += part[0].upper() + part[1:].lower() + ' '
+
+        return image_name.strip()
+
+    diretorio_raiz = os.getcwd()
+    diretorio_images = diretorio_raiz + r'/app/assets/imagens/'
+    images = os.listdir(diretorio_images)
+
+    imgs = []
+
+    for index, image in enumerate(images):
+        imgs.append({
+            'index': index,
+            'src': request.host_url + 'imagens/' + image,
+            'name': get_image_name(image)
+        })
+
+    return json.dumps(imgs)
+
 if __name__ == '__main__':
     app.run()
