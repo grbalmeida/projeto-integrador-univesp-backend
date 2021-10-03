@@ -1,4 +1,5 @@
 from database.repository import Repository
+import json
 
 class Instituicao(Repository):
     def __init__(self):
@@ -7,6 +8,7 @@ class Instituicao(Repository):
     def obter_instituicao(self, id):
         sql = self.get_base_instituicao_sql()
         sql += f' where i.inst_id = {id}'
+        sql += ' group by (i.inst_id, c.cat_id, contact.contact_id, address.addr_id)'
 
         self.cur.execute(sql)
         instituicao = self.cur.fetchone()
@@ -28,6 +30,7 @@ class Instituicao(Repository):
         if not categoria_id is None:
             sql += f" and i.cat_id = {categoria_id}"
 
+        sql += ' group by (i.inst_id, c.cat_id, contact.contact_id, address.addr_id)'
         sql += ' order by i.inst_id'
 
         self.cur.execute(sql)
@@ -49,7 +52,17 @@ class Instituicao(Repository):
         sql += ' address.addr_zipcode, address.addr_street,'
         sql += ' address.addr_number, address.addr_complement,'
         sql += ' address.addr_district, address.addr_city,'
-        sql += ' address.addr_state, address.addr_country'
+        sql += ' address.addr_state, address.addr_country,'
+        sql += ' array_agg(account.bank_name) as account_banks,'
+        sql += ' array_agg(account.bank_account_ag) account_ag,'
+        sql += ' array_agg(account.bank_account_conta) account_accounts,'
+        sql += ' array_agg('
+        sql += "   CASE WHEN account.bank_account_type = 'Corrente'"
+        sql += "    THEN 'Conta Corrente'"
+        sql += "    WHEN account.bank_account_type = 'Poupanca'"
+        sql += "    THEN 'Conta Poupança'"
+        sql += "    ELSE null"
+        sql += '    END) account_types'
         sql += ' from instituicoes i'
         sql += ' inner join categorias c'
         sql += ' on i.cat_id = c.cat_id'
@@ -57,10 +70,23 @@ class Instituicao(Repository):
         sql += ' on i.inst_id = contact.inst_id'
         sql += ' left join inst_addresses address'
         sql += ' on i.inst_id = address.inst_id'
+        sql += ' left join inst_bank_accounts account'
+        sql += ' on i.inst_id = account.inst_id'
 
         return sql
 
     def get_instituicao_to_map(self, instituicao):
+
+        accounts = []
+
+        for index, account in enumerate(instituicao['account_banks']):
+            accounts.append({
+                'bank_name': account,
+                'account_ag': instituicao['account_ag'][index],
+                'account_conta': instituicao['account_accounts'][index],
+                'account_type': instituicao['account_types'][index]
+            })
+
         return {
             'id': instituicao['inst_id'],
             'name': instituicao['inst_name'],
@@ -92,5 +118,6 @@ class Instituicao(Repository):
                 'city': instituicao['addr_city'],
                 'state': instituicao['addr_state'],
                 'country': instituicao['addr_country']
-            }
+            },
+            'accounts': accounts
         }
