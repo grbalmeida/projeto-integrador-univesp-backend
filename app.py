@@ -1,6 +1,6 @@
 import os
 import json
-from flask import Flask
+from flask import Flask, request
 
 from database.categoria import Categoria
 from database.instituicao import Instituicao
@@ -39,8 +39,11 @@ def get_categoria(categoria_id):
 
 @app.route("/instituicoes", methods=['GET'])
 def get_instituicoes():
+    nome = request.args.get('nome')
+    categoria_id = request.args.get('categoria_id')
+
     instituicao = Instituicao()
-    instituicoes = instituicao.obter_instituicoes()
+    instituicoes = instituicao.obter_instituicoes(nome, categoria_id)
 
     return json.dumps(instituicoes, ensure_ascii=False)
 

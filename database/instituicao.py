@@ -49,7 +49,7 @@ class Instituicao(Repository):
                 }
             }
     
-    def obter_instituicoes(self):
+    def obter_instituicoes(self, nome = None, categoria_id = None):
         instituicoes = []
 
         sql = 'select i.inst_id, i.inst_name, i.inst_cnpj,'
@@ -64,6 +64,14 @@ class Instituicao(Repository):
         sql += ' on i.cat_id = c.cat_id'
         sql += ' left join inst_contacts contact'
         sql += ' on i.inst_id = contact.inst_id'
+        sql += ' where 1 = 1'
+
+        if not nome is None:
+            sql += f" and i.inst_name like '%{nome}%'"
+
+        if not categoria_id is None:
+            sql += f" and i.cat_id = {categoria_id}"
+
         sql += ' order by i.inst_id'
 
         self.cur.execute(sql)
