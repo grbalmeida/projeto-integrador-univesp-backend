@@ -65,6 +65,16 @@ def get_imagem(imagem):
     except FileNotFoundError:
         return NotFound()
 
+@app.route("/qrcode/<qrcode>", methods=['GET'])
+def get_qrcode(qrcode):
+    diretorio = os.getcwd()
+    nome_arquivo = diretorio + os.path.join(r'/app/assets/qrcode/', qrcode)
+
+    try:
+        return send_file(nome_arquivo, mimetype='image/jpg')
+    except FileNotFoundError:
+        return NotFound()
+
 @app.route("/imgs", methods=['GET'])
 def get_images():
     def get_image_name(image_file):
