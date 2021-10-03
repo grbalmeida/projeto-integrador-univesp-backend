@@ -44,5 +44,12 @@ def get_instituicoes():
 
     return json.dumps(instituicoes, ensure_ascii=False)
 
+@app.route("/instituicoes/<instituicao_id>", methods=['GET'])
+def get_instituicao(instituicao_id):
+    instituicao = Instituicao()
+    inst = instituicao.obter_instituicao(instituicao_id)
+
+    return json.dumps(inst, ensure_ascii=False)
+
 if __name__ == '__main__':
     app.run()
