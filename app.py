@@ -1,6 +1,6 @@
 import os
 import json
-from flask import Flask, request
+from flask import Flask, request, send_file
 
 from database.categoria import Categoria
 from database.instituicao import Instituicao
@@ -53,6 +53,13 @@ def get_instituicao(instituicao_id):
     inst = instituicao.obter_instituicao(instituicao_id)
 
     return json.dumps(inst, ensure_ascii=False)
+
+@app.route("/imagens/<imagem>", methods=['GET'])
+def get_imagem(imagem):
+    diretorio = os.getcwd()
+    nome_arquivo = diretorio + os.path.join(r'/app/assets/imagens/', imagem)
+
+    return send_file(nome_arquivo, mimetype='image/jpg')
 
 if __name__ == '__main__':
     app.run()
