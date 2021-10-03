@@ -1,5 +1,5 @@
 from database.repository import Repository
-import json
+from flask import request
 
 class Instituicao(Repository):
     def __init__(self):
@@ -62,7 +62,9 @@ class Instituicao(Repository):
         sql += "    WHEN account.bank_account_type = 'Poupanca'"
         sql += "    THEN 'Conta Poupança'"
         sql += "    ELSE null"
-        sql += '    END) account_types'
+        sql += '    END) account_types,'
+        sql += ' array_agg(pix.pix_key) as pix_keys,'
+        sql += ' array_agg(pix.qrcode_file) as qrcodes'
         sql += ' from instituicoes i'
         sql += ' inner join categorias c'
         sql += ' on i.cat_id = c.cat_id'
@@ -72,12 +74,15 @@ class Instituicao(Repository):
         sql += ' on i.inst_id = address.inst_id'
         sql += ' left join inst_bank_accounts account'
         sql += ' on i.inst_id = account.inst_id'
+        sql += ' left join inst_bank_pix pix'
+        sql += ' on account.account_id = pix.account_id'
 
         return sql
 
     def get_instituicao_to_map(self, instituicao):
 
         accounts = []
+        pixs = []
 
         for index, account in enumerate(instituicao['account_banks']):
             accounts.append({
@@ -87,11 +92,28 @@ class Instituicao(Repository):
                 'account_type': instituicao['account_types'][index]
             })
 
+        for index, pix in enumerate(instituicao['pix_keys']):
+            pix_key = instituicao['pix_keys'][index]
+            qrcode = instituicao['qrcodes'][index]
+
+            if not pix_key is None and not qrcode is None:
+                pixs.append({
+                    'pix_key': pix_key,
+                    'qrcode_file': request.host_url + 'qrcode/' + qrcode
+                })
+
+        logo = instituicao['logo']
+
+        if not logo:
+            logo = None
+        else:
+            logo = request.host_url + 'imagens/' + logo
+
         return {
             'id': instituicao['inst_id'],
             'name': instituicao['inst_name'],
             'cnpj': instituicao['inst_cnpj'],
-            'logo': instituicao['logo'],
+            'logo': logo,
             'description': instituicao['description'],
             'categoria_id': instituicao['cat_id'],
             'categoria': {
@@ -119,5 +141,6 @@ class Instituicao(Repository):
                 'state': instituicao['addr_state'],
                 'country': instituicao['addr_country']
             },
-            'accounts': accounts
+            'accounts': accounts,
+            'pix': pixs
         }
