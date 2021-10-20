@@ -2,11 +2,6 @@ import psycopg2
 import psycopg2.extras
 import os
 
-# localhost
-# hub_solidario_desenvolvimento
-# postgres
-# default_123
-
 class Repository:
     table_name = None
     primary_key = None
