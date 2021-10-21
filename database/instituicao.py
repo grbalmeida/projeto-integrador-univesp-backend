@@ -25,7 +25,7 @@ class Instituicao(Repository):
         sql += ' where 1 = 1'
 
         if not nome is None:
-            sql += f" and i.inst_name like '%{nome}%'"
+            sql += f" and LOWER(i.inst_name) like '%{nome.lower()}%'"
 
         if not categoria_id is None:
             sql += f" and i.cat_id = {categoria_id}"
