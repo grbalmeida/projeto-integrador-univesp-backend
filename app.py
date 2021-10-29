@@ -98,7 +98,8 @@ def get_images():
         imgs.append({
             'index': index,
             'src': request.host_url + 'imagens-home/' + image,
-            'name': ''
+            'name': '',
+            'categoria_id': image.replace('.png', '')
         })
 
     return json.dumps(imgs)
