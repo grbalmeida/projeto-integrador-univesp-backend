@@ -20,6 +20,7 @@ class Instituicao(Repository):
     
     def obter_instituicoes(self, nome = None, categoria_id = None):
         instituicoes = []
+        categoria = None
 
         sql = self.get_base_instituicao_sql()
         sql += ' where 1 = 1'
@@ -28,6 +29,14 @@ class Instituicao(Repository):
             sql += f" and LOWER(i.inst_name) like '%{nome.lower()}%'"
 
         if not categoria_id is None:
+            self.cur.execute("select nome from categorias where cat_id = " + categoria_id)
+            result_categoria = self.cur.fetchone()
+
+            if result_categoria:
+                categoria = {}
+                categoria['categoria_id'] = categoria_id
+                categoria['nome'] = result_categoria['nome']
+
             sql += f" and i.cat_id = {categoria_id}"
 
         sql += ' group by (i.inst_id, c.cat_id, contact.contact_id, address.addr_id)'
@@ -39,7 +48,11 @@ class Instituicao(Repository):
         for instituicao in result:
             instituicoes.append(self.get_instituicao_to_map(instituicao))
 
-        return instituicoes
+        result = {}
+        result['instituicoes'] = instituicoes
+        result['categoria'] = categoria
+
+        return result
 
     def get_base_instituicao_sql(self):
         sql = 'select i.inst_id, i.inst_name, i.inst_cnpj,'
