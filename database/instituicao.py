@@ -56,7 +56,7 @@ class Instituicao(Repository):
 
     def get_base_instituicao_sql(self):
         sql = 'select i.inst_id, i.inst_name, i.inst_cnpj,'
-        sql += ' i.logo, i.description, c.cat_id, c.nome as cat_nome,'
+        sql += ' i.logo, i.alt_logo, i.description, c.cat_id, c.nome as cat_nome,'
         sql += ' contact.contact_comercial, contact.contact_mobile,'
         sql += ' contact.contact_email, contact.contact_site,'
         sql += ' contact.contact_instagram, contact.contact_facebook,'
@@ -127,6 +127,7 @@ class Instituicao(Repository):
             'name': instituicao['inst_name'],
             'cnpj': instituicao['inst_cnpj'],
             'logo': logo,
+            'alt_logo': instituicao['alt_logo'],
             'description': instituicao['description'],
             'categoria_id': instituicao['cat_id'],
             'categoria': {
