@@ -1,9 +1,24 @@
 from database.repository import Repository
 from flask import request
+from psycopg2.errors import UniqueViolation
 
 class Instituicao(Repository):
     def __init__(self):
         super(Instituicao, self).__init__('instituicoes', 'inst_id')
+
+    def cadastrar(self, data):
+        sql = 'INSERT INTO instituicoes (inst_id, inst_name, inst_cnpj, description, cat_id)'
+        sql += ' VALUES ((select max(i.inst_id) + 1 from instituicoes i), %s, %s, %s, %s)'
+    
+        result = {'errors': []}
+
+        try:
+            self.cur.execute(sql, (data['nome'], data['cnpj'], data['descricao'], data['categoria']))
+            self.connection.commit()
+        except UniqueViolation:
+            result['errors'].append('CNPJ informado já está cadastrado')
+
+        return result
 
     def obter_instituicao(self, id):
         sql = self.get_base_instituicao_sql()

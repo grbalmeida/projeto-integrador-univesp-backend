@@ -104,5 +104,42 @@ def get_images():
 
     return json.dumps(imgs)
 
+@app.route("/cadastrar", methods=['POST'])
+def cadastrar():
+    instituicao = Instituicao()
+    
+    result = {'errors': []}
+
+    if not request.form['nome']:
+        result['errors'].append('Nome é obrigatório')
+
+    if not request.form['cnpj']:
+        result['errors'].append('CNPJ é obrigatório')
+
+    if not request.form['descricao']:
+        result['errors'].append('Descrição é obrigatória')
+
+    if not request.form['categoria']:
+        result['errors'].append('Categoria é obrigatória')
+
+    if len(request.form['nome']) > 255:
+        result['errors'].append('Nome deve possuir no máximo 255 caracteres')
+
+    if len(request.form['cnpj']) > 18:
+        result['errors'].append('CNPJ deve possuir no máximo 18 caracteres')
+
+    if len(request.form['descricao']) > 1000:
+        result['errors'].append('Descrição deve possuir no máximo 1000 caracteres')
+
+    if len(result['errors']) > 0:
+        return json.dumps({'success':False, 'errors': result['errors']}), 400, {'ContentType':'application/json'}
+
+    result = instituicao.cadastrar(request.form.to_dict())
+
+    if len(result['errors']) > 0:
+        return json.dumps({'success':False, 'errors': result['errors']}), 400, {'ContentType':'application/json'}
+
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
+
 if __name__ == '__main__':
     app.run()
