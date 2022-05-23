@@ -45,3 +45,9 @@ SET DATABASE_PASSWORD=default_123
 ```
 SET APP_SETTINGS=config.DevelopmentConfig
 ```
+
+### Como executar testes exibindo cobertura
+
+```
+pytest --cov --cov-report html
+```
