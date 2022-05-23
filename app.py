@@ -1,4 +1,5 @@
 import os
+import re
 import json
 from flask import Flask, request, send_file
 from werkzeug.exceptions import NotFound
@@ -115,6 +116,10 @@ def cadastrar():
 
     if not request.form['cnpj']:
         result['errors'].append('CNPJ é obrigatório')
+    else:
+        cnpj = re.sub('[^0-9]','', request.form['cnpj'])
+        if len(cnpj) > 18:
+            result['errors'].append('CNPJ deve possuir no máximo 18 caracteres')
 
     if not request.form['descricao']:
         result['errors'].append('Descrição é obrigatória')
@@ -125,21 +130,71 @@ def cadastrar():
     if len(request.form['nome']) > 255:
         result['errors'].append('Nome deve possuir no máximo 255 caracteres')
 
-    if len(request.form['cnpj']) > 18:
-        result['errors'].append('CNPJ deve possuir no máximo 18 caracteres')
-
     if len(request.form['descricao']) > 1000:
         result['errors'].append('Descrição deve possuir no máximo 1000 caracteres')
+    
+    # Validações Endereço
+
+    if request.form['exibirEndereco']:
+        if not request.form['cep']:
+            result['errors'].append('CEP é obrigatório')
+        else:
+            cep = re.sub('[^0-9]','', request.form['cep'])
+            if len(cep) > 8:
+                result['errors'].append('CEP deve possuir no máximo 8 caracteres')
+
+        if not request.form['rua']:
+            result['errors'].append('Rua/Avenida é obrigatória')
+
+        if len(request.form['rua']) > 100:
+            result['errors'].append('Rua/Avenida deve possuir no máximo 100 caracteres')
+
+        if not request.form['numero']:
+            result['errors'].append('Número é obrigatório')
+
+        if len(request.form['numero']) > 50:
+            result['errors'].append('Número deve possuir no máximo 50 caracteres')
+
+        if len(request.form['complemento']) > 100:
+            result['errors'].append('Complemento deve possuir no máximo 100 caracteres')
+
+        if not request.form['bairro']:
+            result['errors'].append('Bairro é obrigatório')
+
+        if len(request.form['bairro']) > 100:
+            result['errors'].append('Bairro deve possuir no máximo 100 caracteres')
+
+        if not request.form['cidade']:
+            result['errors'].append('Cidade é obrigatória')
+        
+        if len(request.form['cidade']) > 100:
+            result['errors'].append('Cidade deve possuir no máximo 100 caracteres')
+
+        if not request.form['estado']:
+            result['errors'].append('Estado é obrigatório')
+        
+        if len(request.form['estado']) > 100:
+            result['errors'].append('Estado deve possuir no máximo 100 caracteres')
+
+        if not request.form['pais']:
+            result['errors'].append('País é obrigatório')
+
+        if len(request.form['pais']) > 100:
+            result['errors'].append('País deve possuir no máximo 100 caracteres')
+
+    if len(result['errors']) > 0:
+        print(result['errors'])
+        return json.dumps({'success':False, 'errors': result['errors']}), 400, {'ContentType':'application/json'}
+
+    form_dict = request.form.to_dict()
+    form_dict['cnpj'] = re.sub('[^0-9]','', form_dict['cnpj'])
+    form_dict['cep'] = re.sub('[^0-9]','', form_dict['cep'])
+    result = instituicao.cadastrar(form_dict)
 
     if len(result['errors']) > 0:
         return json.dumps({'success':False, 'errors': result['errors']}), 400, {'ContentType':'application/json'}
 
-    result = instituicao.cadastrar(request.form.to_dict())
-
-    if len(result['errors']) > 0:
-        return json.dumps({'success':False, 'errors': result['errors']}), 400, {'ContentType':'application/json'}
-
-    return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
+    return json.dumps({'success':True, 'errors': []}), 200, {'ContentType':'application/json'} 
 
 if __name__ == '__main__':
     app.run()
