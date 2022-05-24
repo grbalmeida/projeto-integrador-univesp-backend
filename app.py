@@ -135,7 +135,7 @@ def cadastrar():
     
     # Validações Endereço
 
-    if request.form['exibirEndereco']:
+    if request.form['exibirEndereco'] == 'S': # Caso o checkbox de exibir endereço esteja selecionado
         if not request.form['cep']:
             result['errors'].append('CEP é obrigatório')
         else:

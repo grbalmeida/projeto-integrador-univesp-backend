@@ -7,16 +7,32 @@ class Instituicao(Repository):
         super(Instituicao, self).__init__('instituicoes', 'inst_id')
 
     def cadastrar(self, data):
-        sql = 'INSERT INTO instituicoes (inst_id, inst_name, inst_cnpj, description, cat_id)'
-        sql += ' VALUES ((select max(i.inst_id) + 1 from instituicoes i), %s, %s, %s, %s)'
+        sql = """
+            INSERT INTO instituicoes (inst_id, inst_name, inst_cnpj, description, cat_id)
+            VALUES ((select max(i.inst_id) + 1 from instituicoes i), %s, %s, %s, %s)
+        """
     
         result = {'errors': []}
+
+        persistiu_instituicao = False
 
         try:
             self.cur.execute(sql, (data['nome'], data['cnpj'], data['descricao'], data['categoria']))
             self.connection.commit()
+            persistiu_instituicao = True
         except UniqueViolation:
             result['errors'].append('CNPJ informado já está cadastrado')
+            persistiu_instituicao = False
+
+        if persistiu_instituicao:
+            sql = """
+                INSERT INTO inst_addresses (inst_id, addr_zipcode, addr_street, addr_number,
+                addr_complement, addr_district, addr_city, addr_state, addr_country, is_active)
+                VALUES ((select max(i.inst_id) from instituicoes i), %s, %s, %s, %s, %s, %s, %s, %s, TRUE)
+            """
+
+            self.cur.execute(sql, (data['cep'], data['rua'], data['numero'], data['complemento'], data['bairro'], data['cidade'], data['estado'], data['pais']))
+            self.connection.commit()
 
         return result
 
