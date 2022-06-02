@@ -25,14 +25,15 @@ class Instituicao(Repository):
             persistiu_instituicao = False
 
         if persistiu_instituicao:
-            sql = """
-                INSERT INTO inst_addresses (inst_id, addr_zipcode, addr_street, addr_number,
-                addr_complement, addr_district, addr_city, addr_state, addr_country, is_active)
-                VALUES ((select max(i.inst_id) from instituicoes i), %s, %s, %s, %s, %s, %s, %s, %s, TRUE)
-            """
+            if data['exibirEndereco']:
+                sql = """
+                    INSERT INTO inst_addresses (inst_id, addr_zipcode, addr_street, addr_number,
+                    addr_complement, addr_district, addr_city, addr_state, addr_country, is_active)
+                    VALUES ((select max(i.inst_id) from instituicoes i), %s, %s, %s, %s, %s, %s, %s, %s, TRUE)
+                """
 
-            self.cur.execute(sql, (data['cep'], data['rua'], data['numero'], data['complemento'], data['bairro'], data['cidade'], data['estado'], data['pais']))
-            self.connection.commit()
+                self.cur.execute(sql, (data['cep'], data['rua'], data['numero'], data['complemento'], data['bairro'], data['cidade'], data['estado'], data['pais']))
+                self.connection.commit()
 
         return result
 
@@ -54,7 +55,7 @@ class Instituicao(Repository):
         categoria = None
 
         sql = self.get_base_instituicao_sql()
-        sql += ' where 1 = 1'
+        sql += ' where 1 = 1 and i.is_active = true '
 
         if not nome is None:
             sql += f" and LOWER(i.inst_name) like '%{nome.lower()}%'"

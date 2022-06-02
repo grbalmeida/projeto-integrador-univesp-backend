@@ -182,6 +182,26 @@ def cadastrar():
         if len(request.form['pais']) > 100:
             result['errors'].append('País deve possuir no máximo 100 caracteres')
 
+    # Validações Contato
+
+    if not request.form['email']:
+        result['errors'].append('E-mail é obrigatório')
+
+    if len(request.form['email']) > 100:
+        result['errors'].append('E-mail deve possuir no máximo 100 caracteres')
+
+    if not email_e_valido(request.form['email']):
+        result['errors'].append('E-mail em formato inválido')
+
+    if not request.form['telefone_comercial'] and not request.form['telefone_celular']:
+        result['errors'].append('Pelo menos um telefone deve ser informado')
+
+    if len(request.form['telefone_comercial']) > 11:
+        result['errors'].append('Telefone comercial deve possuir no máximo 11 caracteres')
+
+    if len(request.form['telefone_celular']) > 12:
+        result['errors'].append('Telefone celular deve possuir no máximo 12 caracteres')
+
     if len(result['errors']) > 0:
         print(result['errors'])
         return json.dumps({'success':False, 'errors': result['errors']}), 400, {'ContentType':'application/json'}
@@ -195,6 +215,10 @@ def cadastrar():
         return json.dumps({'success':False, 'errors': result['errors']}), 400, {'ContentType':'application/json'}
 
     return json.dumps({'success':True, 'errors': []}), 200, {'ContentType':'application/json'} 
+
+def email_e_valido(email):
+   pat = "^[a-zA-Z0-9-_]+@[a-zA-Z0-9]+\.[a-z]{1,3}$"
+   return re.match(pat, email)
 
 if __name__ == '__main__':
     app.run()
