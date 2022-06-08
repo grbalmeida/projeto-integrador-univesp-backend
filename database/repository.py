@@ -22,12 +22,13 @@ class Repository:
         self.cur = self.connection.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
 
     def obter_todos(self):
-        self.cur.execute(f'select * from {self.table_name}')
+        print(f'select * from {self.table_name} where is_active = true ')
+        self.cur.execute(f'select * from {self.table_name} where is_active = true ')
         entities = self.cur.fetchall()
         return entities
 
     def obter(self, id):
-        self.cur.execute(f'select * from {self.table_name} where {self.primary_key} = {id}')
+        self.cur.execute(f'select * from {self.table_name} where {self.primary_key} = {id} and is_active = true ')
         entity = self.cur.fetchone()
         return entity
 

@@ -2,7 +2,9 @@ import os
 import re
 import json
 from flask import Flask, request, send_file
+import idna
 from werkzeug.exceptions import NotFound
+import validation_messages
 
 from database.categoria import Categoria
 from database.instituicao import Instituicao
@@ -112,95 +114,113 @@ def cadastrar():
     result = {'errors': []}
 
     if not request.form['nome']:
-        result['errors'].append('Nome é obrigatório')
+        result['errors'].append(validation_messages.NOME_REQUIRED)
 
     if not request.form['cnpj']:
-        result['errors'].append('CNPJ é obrigatório')
+        result['errors'].append(validation_messages.CNPJ_REQUIRED)
     else:
         cnpj = re.sub('[^0-9]','', request.form['cnpj'])
         if len(cnpj) > 18:
-            result['errors'].append('CNPJ deve possuir no máximo 18 caracteres')
+            result['errors'].append(validation_messages.CNPJ_MAX_LENGTH)
 
     if not request.form['descricao']:
-        result['errors'].append('Descrição é obrigatória')
+        result['errors'].append(validation_messages.DESCRICAO_REQUIRED)
 
     if not request.form['categoria']:
-        result['errors'].append('Categoria é obrigatória')
+        result['errors'].append(validation_messages.CATEGORIA_REQUIRED)
 
-    if len(request.form['nome']) > 255:
-        result['errors'].append('Nome deve possuir no máximo 255 caracteres')
+    if len(request.form['nome']) > Instituicao.NOME_MAX_LENGTH:
+        result['errors'].append(validation_messages.NOME_MAX_LENGTH)
 
-    if len(request.form['descricao']) > 1000:
-        result['errors'].append('Descrição deve possuir no máximo 1000 caracteres')
+    if len(request.form['descricao']) > Instituicao.DESCRICAO_MAX_LENGTH:
+        result['errors'].append(validation_messages.DESCRICAO_MAX_LENGTH)
     
     # Validações Endereço
 
     if request.form['exibirEndereco'] == 'S': # Caso o checkbox de exibir endereço esteja selecionado
         if not request.form['cep']:
-            result['errors'].append('CEP é obrigatório')
+            result['errors'].append(validation_messages.CEP_REQUIRED)
         else:
             cep = re.sub('[^0-9]','', request.form['cep'])
             if len(cep) > 8:
-                result['errors'].append('CEP deve possuir no máximo 8 caracteres')
+                result['errors'].append(validation_messages.CEP_MAX_LENGTH)
 
         if not request.form['rua']:
-            result['errors'].append('Rua/Avenida é obrigatória')
+            result['errors'].append(validation_messages.RUA_REQUIRED)
 
         if len(request.form['rua']) > 100:
-            result['errors'].append('Rua/Avenida deve possuir no máximo 100 caracteres')
+            result['errors'].append(validation_messages.RUA_MAX_LENGTH)
 
         if not request.form['numero']:
-            result['errors'].append('Número é obrigatório')
+            result['errors'].append(validation_messages.NUMERO_REQUIRED)
 
         if len(request.form['numero']) > 50:
-            result['errors'].append('Número deve possuir no máximo 50 caracteres')
+            result['errors'].append(validation_messages.NUMERO_MAX_LENGTH)
 
         if len(request.form['complemento']) > 100:
-            result['errors'].append('Complemento deve possuir no máximo 100 caracteres')
+            result['errors'].append(validation_messages.COMPLEMENTO_MAX_LENGTH)
 
         if not request.form['bairro']:
-            result['errors'].append('Bairro é obrigatório')
+            result['errors'].append(validation_messages.BAIRRO_REQUIRED)
 
         if len(request.form['bairro']) > 100:
-            result['errors'].append('Bairro deve possuir no máximo 100 caracteres')
+            result['errors'].append(validation_messages.BAIRRO_MAX_LENGTH)
 
         if not request.form['cidade']:
-            result['errors'].append('Cidade é obrigatória')
+            result['errors'].append(validation_messages.CIDADE_REQUIRED)
         
         if len(request.form['cidade']) > 100:
-            result['errors'].append('Cidade deve possuir no máximo 100 caracteres')
+            result['errors'].append(validation_messages.CIDADE_MAX_LENGTH)
 
         if not request.form['estado']:
-            result['errors'].append('Estado é obrigatório')
+            result['errors'].append(validation_messages.ESTADO_REQUIRED)
         
         if len(request.form['estado']) > 100:
-            result['errors'].append('Estado deve possuir no máximo 100 caracteres')
+            result['errors'].append(validation_messages.ESTADO_MAX_LENGTH)
 
         if not request.form['pais']:
-            result['errors'].append('País é obrigatório')
+            result['errors'].append(validation_messages.PAIS_REQUIRED)
 
         if len(request.form['pais']) > 100:
-            result['errors'].append('País deve possuir no máximo 100 caracteres')
+            result['errors'].append(validation_messages.PAIS_MAX_LENGTH)
 
     # Validações Contato
 
     if not request.form['email']:
-        result['errors'].append('E-mail é obrigatório')
+        result['errors'].append(validation_messages.EMAIL_REQUIRED)
 
     if len(request.form['email']) > 100:
-        result['errors'].append('E-mail deve possuir no máximo 100 caracteres')
+        result['errors'].append(validation_messages.EMAIL_MAX_LENGTH)
 
     if not email_e_valido(request.form['email']):
-        result['errors'].append('E-mail em formato inválido')
+        result['errors'].append(validation_messages.EMAIL_INVALID)
 
     if not request.form['telefone_comercial'] and not request.form['telefone_celular']:
-        result['errors'].append('Pelo menos um telefone deve ser informado')
+        result['errors'].append(validation_messages.TELEFONE_REQUIRED)
 
     if len(request.form['telefone_comercial']) > 11:
-        result['errors'].append('Telefone comercial deve possuir no máximo 11 caracteres')
+        result['errors'].append(validation_messages.TELEFONE_COMERCIAL_MAX_LENGTH)
 
     if len(request.form['telefone_celular']) > 12:
-        result['errors'].append('Telefone celular deve possuir no máximo 12 caracteres')
+        result['errors'].append(validation_messages.TELEFONE_CELULAR_MAX_LENGTH)
+
+    if len(request.form['site']) > 100:
+        result['errors'].append(validation_messages.SITE_MAX_LENGTH)
+
+    if len(request.form['instagram']) > 100:
+        result['errors'].append(validation_messages.INSTAGRAM_MAX_LENGTH)
+
+    if len(request.form['facebook']) > 100:
+        result['errors'].append(validation_messages.FACEBOOK_MAX_LENGTH)
+
+    if len(request.form['twitter']) > 100:
+        result['errors'].append(validation_messages.TWITTER_MAX_LENGTH)
+
+    if len(request.form['linkedin']) > 100:
+        result['errors'].append(validation_messages.LINKEDIN_MAX_LENGTH)
+
+    if len(request.form['youtube']) > 100:
+        result['errors'].append(validation_messages.YOUTUBE_MAX_LENGTH)
 
     if len(result['errors']) > 0:
         print(result['errors'])

@@ -3,6 +3,9 @@ from flask import request
 from psycopg2.errors import UniqueViolation
 
 class Instituicao(Repository):
+    NOME_MAX_LENGTH = 255
+    DESCRICAO_MAX_LENGTH = 1000
+
     def __init__(self):
         super(Instituicao, self).__init__('instituicoes', 'inst_id')
 

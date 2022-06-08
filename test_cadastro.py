@@ -22,7 +22,7 @@ def test_nome_deve_ser_preenchido(client):
         "nome": "",
         "cnpj": "01803408000164",
         "descricao": "Descrição Teste",
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "",
         "email": "", "telefone_celular": "", "telefone_comercial": "",
     }
@@ -38,7 +38,7 @@ def test_nome_deve_possuir_no_maximo_255_caracteres(client):
         "nome": 'A' * 256,
         "cnpj": "01803408000164",
         "descricao": "Descrição Teste",
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "",
         "email": "", "telefone_celular": "", "telefone_comercial": "",
     }
@@ -54,7 +54,7 @@ def test_cnpj_deve_ser_preenchido(client):
         "nome": "Instituição Teste",
         "cnpj": "",
         "descricao": "Descrição Teste",
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "",
         "email": "", "telefone_celular": "", "telefone_comercial": "",
     }
@@ -70,7 +70,7 @@ def test_cnpj_deve_possuir_no_maximo_18_caracteres(client):
         "nome": "Instituição Teste",
         "cnpj": "1" * 19,
         "descricao": "Descrição Teste",
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "",
         "email": "", "telefone_celular": "", "telefone_comercial": "",
     }
@@ -86,7 +86,7 @@ def test_descricao_deve_ser_preenchida(client):
         "nome": "Instituição Teste",
         "cnpj": "01803408000164",
         "descricao": "",
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "",
         "email": "", "telefone_celular": "", "telefone_comercial": "",
     }
@@ -102,7 +102,7 @@ def test_categoria_deve_ser_preenchida(client):
         "nome": "Instituição Teste",
         "cnpj": "01803408000164",
         "descricao": "Descrição Teste",
-        "categoria": "",
+        "categoria": "", "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "",
         "email": "", "telefone_celular": "", "telefone_comercial": "",
     }
@@ -118,7 +118,7 @@ def test_descricao_deve_possuir_no_maximo_1000_caracteres(client):
         "nome": "Instituição Teste",
         "cnpj": "01803408000164",
         "descricao": "D" * 1001,
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "",
         "email": "", "telefone_celular": "", "telefone_comercial": "",
     }
@@ -134,7 +134,7 @@ def test_cep_deve_ser_preenchido(client):
         "nome": "Instituição Teste",
         "cnpj": "01803408000164",
         "descricao": "Descrição Teste",
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "S",
         "cep": "",
         "rua": "",
@@ -158,7 +158,7 @@ def test_cep_deve_possuir_no_maximo_8_caracteres(client):
         "nome": "Instituição Teste",
         "cnpj": "01803408000164",
         "descricao": "Descrição Teste",
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "S",
         "cep": "010010001",
         "rua": "",
@@ -182,7 +182,7 @@ def test_rua_deve_ser_preenchida(client):
         "nome": "Instituição Teste",
         "cnpj": "01803408000164",
         "descricao": "Descrição Teste",
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "S",
         "cep": "010010001",
         "rua": "",
@@ -206,7 +206,7 @@ def test_rua_deve_possuir_no_maximo_100_caracteres(client):
         "nome": "Instituição Teste",
         "cnpj": "01803408000164",
         "descricao": "Descrição Teste",
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "S",
         "cep": "010010001",
         "rua": "R" * 101,
@@ -230,7 +230,7 @@ def test_numero_deve_ser_preenchido(client):
         "nome": "Instituição Teste",
         "cnpj": "01803408000164",
         "descricao": "Descrição Teste",
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "S",
         "cep": "010010001",
         "rua": "",
@@ -254,7 +254,7 @@ def test_numero_deve_possuir_no_maximo_50_caracteres(client):
         "nome": "Instituição Teste",
         "cnpj": "01803408000164",
         "descricao": "Descrição Teste",
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "S",
         "cep": "010010001",
         "rua": "Rua Teste",
@@ -278,7 +278,7 @@ def test_complemento_deve_possuir_no_maximo_100_caracteres(client):
         "nome": "Instituição Teste",
         "cnpj": "01803408000164",
         "descricao": "Descrição Teste",
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "S",
         "cep": "010010001",
         "rua": "Rua Teste",
@@ -302,7 +302,7 @@ def test_bairro_deve_ser_preenchido(client):
         "nome": "Instituição Teste",
         "cnpj": "01803408000164",
         "descricao": "Descrição Teste",
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "S",
         "cep": "010010001",
         "rua": "Rua Teste",
@@ -326,7 +326,7 @@ def test_bairro_deve_possuir_no_maximo_100_caracteres(client):
         "nome": "Instituição Teste",
         "cnpj": "01803408000164",
         "descricao": "Descrição Teste",
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "S",
         "cep": "010010001",
         "rua": "Rua Teste",
@@ -350,7 +350,7 @@ def test_cidade_deve_ser_preenchida(client):
         "nome": "Instituição Teste",
         "cnpj": "01803408000164",
         "descricao": "Descrição Teste",
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "S",
         "cep": "010010001",
         "rua": "Rua Teste",
@@ -374,7 +374,7 @@ def test_cidade_deve_possuir_no_maximo_100_caracteres(client):
         "nome": "Instituição Teste",
         "cnpj": "01803408000164",
         "descricao": "Descrição Teste",
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "S",
         "cep": "010010001",
         "rua": "Rua Teste",
@@ -398,7 +398,7 @@ def test_estado_deve_ser_preenchido(client):
         "nome": "Instituição Teste",
         "cnpj": "01803408000164",
         "descricao": "Descrição Teste",
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "S",
         "cep": "010010001",
         "rua": "Rua Teste",
@@ -422,7 +422,7 @@ def test_estado_deve_possuir_no_maximo_100_caracteres(client):
         "nome": "Instituição Teste",
         "cnpj": "01803408000164",
         "descricao": "Descrição Teste",
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "S",
         "cep": "010010001",
         "rua": "Rua Teste",
@@ -446,7 +446,7 @@ def test_pais_deve_ser_preenchido(client):
         "nome": "Instituição Teste",
         "cnpj": "01803408000164",
         "descricao": "Descrição Teste",
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "S",
         "cep": "010010001",
         "rua": "Rua Teste",
@@ -470,7 +470,7 @@ def test_pais_deve_possuir_no_maximo_100_caracteres(client):
         "nome": "Instituição Teste",
         "cnpj": "01803408000164",
         "descricao": "Descrição Teste",
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "S",
         "cep": "010010001",
         "rua": "Rua Teste",
@@ -494,7 +494,7 @@ def test_email_deve_ser_preenchido(client):
         "nome": "Instituição Teste",
         "cnpj": "01803408000164",
         "descricao": "Descrição Teste",
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "S",
         "cep": "010010001",
         "rua": "Rua Teste",
@@ -518,7 +518,7 @@ def test_email_deve_possuir_no_maximo_100_caracteres(client):
         "nome": "Instituição Teste",
         "cnpj": "01803408000164",
         "descricao": "Descrição Teste",
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "S",
         "cep": "010010001",
         "rua": "Rua Teste",
@@ -544,7 +544,7 @@ def test_email_deve_ser_valido(client):
         "nome": "Instituição Teste",
         "cnpj": "01803408000164",
         "descricao": "Descrição Teste",
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "S",
         "cep": "010010001",
         "rua": "Rua Teste",
@@ -570,7 +570,7 @@ def test_se_email_for_valido_nao_deve_exibir_erro(client):
         "nome": "Instituição Teste",
         "cnpj": "01803408000164",
         "descricao": "Descrição Teste",
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "S",
         "cep": "010010001",
         "rua": "Rua Teste",
@@ -596,7 +596,7 @@ def test_pelo_menos_um_telefone_deve_ser_preenchido(client):
         "nome": "Instituição Teste",
         "cnpj": "01803408000164",
         "descricao": "Descrição Teste",
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "S",
         "cep": "010010001",
         "rua": "Rua Teste",
@@ -622,7 +622,7 @@ def test_se_telefone_celular_informado_nao_exibir_mensagem_de_erro(client):
         "nome": "Instituição Teste",
         "cnpj": "01803408000164",
         "descricao": "Descrição Teste",
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "S",
         "cep": "010010001",
         "rua": "Rua Teste",
@@ -648,7 +648,7 @@ def test_se_telefone_comercial_informado_nao_exibir_mensagem_de_erro(client):
         "nome": "Instituição Teste",
         "cnpj": "01803408000164",
         "descricao": "Descrição Teste",
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "S",
         "cep": "010010001",
         "rua": "Rua Teste",
@@ -674,7 +674,7 @@ def test_telefone_comercial_deve_possuir_no_maximo_11_caracteres(client):
         "nome": "Instituição Teste",
         "cnpj": "01803408000164",
         "descricao": "Descrição Teste",
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "S",
         "cep": "010010001",
         "rua": "Rua Teste",
@@ -700,7 +700,7 @@ def test_telefone_celular_deve_possuir_no_maximo_12_caracteres(client):
         "nome": "Instituição Teste",
         "cnpj": "01803408000164",
         "descricao": "Descrição Teste",
-        "categoria": 6,
+        "categoria": 6, "site": "",  "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
         "exibirEndereco": "S",
         "cep": "010010001",
         "rua": "Rua Teste",
@@ -720,3 +720,162 @@ def test_telefone_celular_deve_possuir_no_maximo_12_caracteres(client):
 
     assert response.status_code == 400
     assert 'Telefone celular deve possuir no máximo 12 caracteres' in data['errors']
+
+def test_site_deve_possuir_no_maximo_100_caracteres(client):
+    data = {
+        "nome": "Instituição Teste",
+        "cnpj": "01803408000164",
+        "descricao": "Descrição Teste",
+        "categoria": 6, "site": "site.com" * 20, "instagram": "", "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
+        "exibirEndereco": "S",
+        "cep": "010010001",
+        "rua": "Rua Teste",
+        "numero": "123",
+        "complemento": "Complemento Teste",
+        "bairro": "Bairro Teste",
+        "cidade": "Cidade Teste",
+        "estado": "Estado Teste",
+        "pais": "",
+        "email": "instituicao@email.com",
+        "telefone_celular": "1" * 12,
+        "telefone_comercial": "",
+    }
+    response = client.post("/cadastrar", data=data)
+
+    data = json.loads(response.data)
+
+    assert response.status_code == 400
+    assert 'Site deve possuir no máximo 100 caracteres' in data['errors']
+
+def test_instagram_deve_possuir_no_maximo_100_caracteres(client):
+    data = {
+        "nome": "Instituição Teste",
+        "cnpj": "01803408000164",
+        "descricao": "Descrição Teste",
+        "categoria": 6, "site": "site.com" * 20, "instagram": "a@a.com" * 20, "facebook": "", "twitter": "", "linkedin": "", "youtube": "",
+        "exibirEndereco": "S",
+        "cep": "010010001",
+        "rua": "Rua Teste",
+        "numero": "123",
+        "complemento": "Complemento Teste",
+        "bairro": "Bairro Teste",
+        "cidade": "Cidade Teste",
+        "estado": "Estado Teste",
+        "pais": "",
+        "email": "instituicao@email.com",
+        "telefone_celular": "1" * 12,
+        "telefone_comercial": "",
+    }
+    response = client.post("/cadastrar", data=data)
+
+    data = json.loads(response.data)
+
+    assert response.status_code == 400
+    assert 'Instagram deve possuir no máximo 100 caracteres' in data['errors']
+
+def test_facebook_deve_possuir_no_maximo_100_caracteres(client):
+    data = {
+        "nome": "Instituição Teste",
+        "cnpj": "01803408000164",
+        "descricao": "Descrição Teste",
+        "categoria": 6, "site": "site.com" * 20, "instagram": "", "facebook": "a@a.com" * 20, "twitter": "", "linkedin": "", "youtube": "",
+        "exibirEndereco": "S",
+        "cep": "010010001",
+        "rua": "Rua Teste",
+        "numero": "123",
+        "complemento": "Complemento Teste",
+        "bairro": "Bairro Teste",
+        "cidade": "Cidade Teste",
+        "estado": "Estado Teste",
+        "pais": "",
+        "email": "instituicao@email.com",
+        "telefone_celular": "1" * 12,
+        "telefone_comercial": "",
+    }
+    response = client.post("/cadastrar", data=data)
+
+    data = json.loads(response.data)
+
+    assert response.status_code == 400
+    assert 'Facebook deve possuir no máximo 100 caracteres' in data['errors']
+
+def test_twitter_deve_possuir_no_maximo_100_caracteres(client):
+    data = {
+        "nome": "Instituição Teste",
+        "cnpj": "01803408000164",
+        "descricao": "Descrição Teste",
+        "categoria": 6, "site": "site.com" * 20, "instagram": "a@a.com" * 20, "facebook": "", "twitter": "a@a.com" * 20, "linkedin": "", "youtube": "",
+        "exibirEndereco": "S",
+        "cep": "010010001",
+        "rua": "Rua Teste",
+        "numero": "123",
+        "complemento": "Complemento Teste",
+        "bairro": "Bairro Teste",
+        "cidade": "Cidade Teste",
+        "estado": "Estado Teste",
+        "pais": "",
+        "email": "instituicao@email.com",
+        "telefone_celular": "1" * 12,
+        "telefone_comercial": "",
+    }
+    response = client.post("/cadastrar", data=data)
+
+    data = json.loads(response.data)
+
+    assert response.status_code == 400
+    assert 'Twitter deve possuir no máximo 100 caracteres' in data['errors']
+
+def test_linkedin_deve_possuir_no_maximo_100_caracteres(client):
+    data = {
+        "nome": "Instituição Teste",
+        "cnpj": "01803408000164",
+        "descricao": "Descrição Teste",
+        "categoria": 6, "site": "site.com", "instagram": "", "facebook":"",
+        "twitter": "", "linkedin": "a@a.com" * 20, "youtube": "",
+        "exibirEndereco": "S",
+        "cep": "010010001",
+        "rua": "Rua Teste",
+        "numero": "123",
+        "complemento": "Complemento Teste",
+        "bairro": "Bairro Teste",
+        "cidade": "Cidade Teste",
+        "estado": "Estado Teste",
+        "pais": "",
+        "email": "instituicao@email.com",
+        "telefone_celular": "1" * 12,
+        "telefone_comercial": "",
+    }
+    response = client.post("/cadastrar", data=data)
+
+    data = json.loads(response.data)
+
+    assert response.status_code == 400
+    assert 'Linkedin deve possuir no máximo 100 caracteres' in data['errors']
+
+def test_youtube_deve_possuir_no_maximo_100_caracteres(client):
+    data = {
+        "nome": "Instituição Teste",
+        "cnpj": "01803408000164",
+        "descricao": "Descrição Teste",
+        "categoria": 6, "site": "site.com",
+        "instagram": "", "facebook": "", "twitter": "",
+        "linkedin": "a@a.com" * 20, "youtube": "a@a.com" * 20,
+        "exibirEndereco": "S",
+        "cep": "010010001",
+        "rua": "Rua Teste",
+        "numero": "123",
+        "complemento": "Complemento Teste",
+        "bairro": "Bairro Teste",
+        "cidade": "Cidade Teste",
+        "estado": "Estado Teste",
+        "pais": "",
+        "email": "instituicao@email.com",
+        "telefone_celular": "1" * 12,
+        "telefone_comercial": "",
+    }
+    response = client.post("/cadastrar", data=data)
+
+    data = json.loads(response.data)
+
+    assert response.status_code == 400
+    assert 'Youtube deve possuir no máximo 100 caracteres' in data['errors']
