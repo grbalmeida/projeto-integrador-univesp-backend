@@ -26,6 +26,8 @@ class Instituicao(Repository):
         except UniqueViolation:
             result['errors'].append('CNPJ informado já está cadastrado')
             persistiu_instituicao = False
+        except:
+            result['errors'].append('Erro ao salvar a instituição')
 
         if persistiu_instituicao:
             if data['exibirEndereco']:
