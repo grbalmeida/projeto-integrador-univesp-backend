@@ -29,24 +29,30 @@ class Instituicao(Repository):
 
         if persistiu_instituicao:
             if data['exibirEndereco']:
+                try:
+                    sql = """
+                        INSERT INTO inst_addresses (inst_id, addr_zipcode, addr_street, addr_number,
+                        addr_complement, addr_district, addr_city, addr_state, addr_country, is_active)
+                        VALUES ((select max(i.inst_id) from instituicoes i), %s, %s, %s, %s, %s, %s, %s, %s, FALSE)
+                    """
+
+                    self.cur.execute(sql, (data['cep'], data['rua'], data['numero'], data['complemento'], data['bairro'], data['cidade'], data['estado'], data['pais']))
+                    self.connection.commit()
+                except:
+                    result['errors'].append('Erro ao salvar o endereço da instituição')
+
+            try:
                 sql = """
-                    INSERT INTO inst_addresses (inst_id, addr_zipcode, addr_street, addr_number,
-                    addr_complement, addr_district, addr_city, addr_state, addr_country, is_active)
-                    VALUES ((select max(i.inst_id) from instituicoes i), %s, %s, %s, %s, %s, %s, %s, %s, FALSE)
+                    INSERT INTO inst_contacts (inst_id, contact_email, contact_comercial, contact_mobile,
+                    contact_site, contact_instagram, contact_facebook, is_active)
+                    VALUES
+                    ((select max(i.inst_id) from instituicoes i), %s, %s, %s, %s, %s, %s, FALSE)
                 """
 
-                self.cur.execute(sql, (data['cep'], data['rua'], data['numero'], data['complemento'], data['bairro'], data['cidade'], data['estado'], data['pais']))
+                self.cur.execute(sql, (data['email'], data['telefone_comercial'], data['telefone_celular'], data['site'], data['instagram'], data['facebook']))
                 self.connection.commit()
-
-            sql = """
-                INSERT INTO inst_contacts (inst_id, contact_email, contact_comercial, contact_mobile,
-                contact_site, contact_instagram, contact_facebook, is_active)
-                VALUES
-                ((select max(i.inst_id) from instituicoes i), %s, %s, %s, %s, %s, %s, FALSE)
-            """
-
-            self.cur.execute(sql, (data['email'], data['telefone_comercial'], data['telefone_celular'], data['site'], data['instagram'], data['facebook']))
-            self.connection.commit()
+            except:
+                result['errors'].append('Erro ao salvar o contato da instituição')
 
         return result
 
