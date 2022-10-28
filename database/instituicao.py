@@ -30,7 +30,7 @@ class Instituicao(Repository):
             result['errors'].append('Erro ao salvar a instituição')
 
         if persistiu_instituicao:
-            if data['exibirEndereco']:
+            if data['exibirEndereco'] == 'S':
                 try:
                     sql = """
                         INSERT INTO inst_addresses (inst_id, addr_zipcode, addr_street, addr_number,
