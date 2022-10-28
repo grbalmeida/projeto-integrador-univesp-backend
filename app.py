@@ -231,7 +231,8 @@ def cadastrar():
         form_dict['cnpj'] = re.sub('[^0-9]','', form_dict['cnpj'])
         form_dict['cep'] = re.sub('[^0-9]','', form_dict['cep'])
         result = instituicao.cadastrar(form_dict)
-    except:
+    except Exception as e:
+        result['errors'].append(str(e))
         result['errors'].append('Erro ao persistir a instituição')
 
     if len(result['errors']) > 0:
