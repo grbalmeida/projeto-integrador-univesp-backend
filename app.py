@@ -226,10 +226,13 @@ def cadastrar():
         print(result['errors'])
         return json.dumps({'success':False, 'errors': result['errors']}), 400, {'ContentType':'application/json'}
 
-    form_dict = request.form.to_dict()
-    form_dict['cnpj'] = re.sub('[^0-9]','', form_dict['cnpj'])
-    form_dict['cep'] = re.sub('[^0-9]','', form_dict['cep'])
-    result = instituicao.cadastrar(form_dict)
+    try:
+        form_dict = request.form.to_dict()
+        form_dict['cnpj'] = re.sub('[^0-9]','', form_dict['cnpj'])
+        form_dict['cep'] = re.sub('[^0-9]','', form_dict['cep'])
+        result = instituicao.cadastrar(form_dict)
+    except:
+        result['errors'].append('Erro ao persistir a instituição')
 
     if len(result['errors']) > 0:
         return json.dumps({'success':False, 'errors': result['errors']}), 400, {'ContentType':'application/json'}
