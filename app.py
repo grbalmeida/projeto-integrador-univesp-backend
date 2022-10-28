@@ -229,7 +229,10 @@ def cadastrar():
     try:
         form_dict = request.form.to_dict()
         form_dict['cnpj'] = re.sub('[^0-9]','', form_dict['cnpj'])
-        form_dict['cep'] = re.sub('[^0-9]','', form_dict['cep'])
+
+        if request.form['exibirEndereco'] == 'S':
+            form_dict['cep'] = re.sub('[^0-9]','', form_dict['cep'])
+
         result = instituicao.cadastrar(form_dict)
     except Exception as e:
         result['errors'].append(str(e))
